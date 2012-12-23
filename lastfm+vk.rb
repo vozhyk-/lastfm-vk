@@ -22,8 +22,12 @@ def sget
   $s.status.get :uid => VK_uid
 end
 
-def sset (text)
-  $s.status.set(:text => text)
+def sset (text, msg = "Current status: ")
+  if $s.status.set(:text => text) == 1
+    puts msg + "#{sget["text"]}"
+  else
+    raise Exception "Status was not set"
+  end
 end
 
 # https://oauth.vk.com/authorize?client_id=3310267&redirect_uri=http://api.vk.com/blank.html&scope=status,offline&display=page&response_type=token
@@ -40,11 +44,7 @@ end
 
 def send_nowplaying (track_text = nowplaying)
   new_status = "Last track: #{track_text}"
-  if sset(new_status) == 1
-    puts "Current status: #{sget["text"]}"
-  else
-    raise Exception "Status was not set"
-  end
+  sset(new_status)
   $old_track = track_text
 end
 
