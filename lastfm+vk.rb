@@ -5,7 +5,7 @@ require "scrobbler"
 require "vk_api"
 
 $lf_un = 'se_customizer'
-def $lf_un.blank?; false; end
+def $lf_un.blank?; false; end # scrobbler requires .blank?
 $vk_aid = 3310267
 $vk_uid = 177067169
 $vk_key = "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
