@@ -34,6 +34,7 @@ end
 # https://oauth.vk.com/authorize?client_id=3310267&redirect_uri=http://api.vk.com/blank.html&scope=status,offline&display=page&response_type=token
 
 def init
+  puts "Initializing..."
   # $u = Scrobbler::User.new($lf_un)
   
   $s = VkApi::Session.new($vk_aid, $vk_key)
