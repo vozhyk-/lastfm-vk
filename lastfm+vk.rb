@@ -9,6 +9,7 @@ def $lf_un.blank?; false; end # scrobbler requires .blank?
 $vk_aid = 3310267
 $vk_uid = 177067169
 $vk_key = "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
+$restore_last_status = false
 
 def nowplaying
   $u = Scrobbler::User.new($lf_un)
@@ -62,7 +63,11 @@ def send_loop (to_sleep=1)
 end
 
 init
-send_loop
+begin
+  send_loop
+rescue SystemExit, Interrupt
+  sset $last_status["text"], "Restored status: " if $restore_last_status
+end
 
 # vk_api test
 #require "vk_api"
