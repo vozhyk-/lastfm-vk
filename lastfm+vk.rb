@@ -3,6 +3,7 @@
 
 require "scrobbler"
 require "vk_api"
+require "optparse"
 
 $lf_un = 'se_customizer'
 def $lf_un.blank?; false; end # scrobbler requires .blank?
@@ -62,6 +63,14 @@ def send_loop (to_sleep=1)
     sleep(to_sleep)
   end
 end
+
+optparse = OptionParser.new do |opts|
+  opts.on('-r', '--restore-status', "Restore previous VK status on exit") do
+    $restore_last_status = true; end
+  opts.on('-h', '--help',           "Display this screen") { puts opts; exit }
+end
+
+optparse.parse!
 
 init
 begin
