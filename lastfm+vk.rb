@@ -4,14 +4,14 @@
 require "scrobbler"
 require "vk_api"
 
-LF_un = 'se_customizer'
-def LF_un.blank?; false; end
-VK_aid = 3310267
-VK_uid = 177067169
-VK_key = "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
+$lf_un = 'se_customizer'
+def $lf_un.blank?; false; end
+$vk_aid = 3310267
+$vk_uid = 177067169
+$vk_key = "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
 
 def nowplaying
-  $u = Scrobbler::User.new(LF_un)
+  $u = Scrobbler::User.new($lf_un)
   cur = $u.recent_tracks[0]
   alb = if !(cur.album.nil? || cur.album.empty?)
           " [#{cur.album}]" else "" end
@@ -19,7 +19,7 @@ def nowplaying
 end
 
 def sget
-  $s.status.get :uid => VK_uid
+  $s.status.get :uid => $vk_uid
 end
 
 def sset (text, msg = "Current status: ")
@@ -33,9 +33,9 @@ end
 # https://oauth.vk.com/authorize?client_id=3310267&redirect_uri=http://api.vk.com/blank.html&scope=status,offline&display=page&response_type=token
 
 def init
-  # $u = Scrobbler::User.new(LF_un)
+  # $u = Scrobbler::User.new($lf_un)
   
-  $s = VkApi::Session.new(VK_aid, VK_key)
+  $s = VkApi::Session.new($vk_aid, $vk_key)
   $last_status = sget
   puts "Last status: #{$last_status}"
   
