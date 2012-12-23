@@ -11,6 +11,7 @@ $vk_aid = 3310267
 $vk_uid = 177067169
 $vk_key = "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
 $restore_last_status = false
+$sleep = 1
 
 def nowplaying
   $u = Scrobbler::User.new($lf_un)
@@ -57,7 +58,7 @@ def send_nowplaying_lazy (track_text = nowplaying)
   end
 end
 
-def send_loop (to_sleep=1)
+def send_loop (to_sleep=$sleep)
   while true
     send_nowplaying_lazy
     sleep(to_sleep)
@@ -65,9 +66,11 @@ def send_loop (to_sleep=1)
 end
 
 optparse = OptionParser.new do |opts|
-  opts.on('-r', '--restore-status', "Restore previous VK status on exit") do
+  opts.on('-r', '--restore-status',     "Restore previous VK status on exit") do
     $restore_last_status = true; end
-  opts.on('-h', '--help',           "Display this screen") { puts opts; exit }
+  opts.on('-s', '--sleep [S]', Integer, "Check last.fm nowplaying each S seconds") do
+    |sec| $sleep = sec; end
+  opts.on('-h', '--help',               "Display this screen") { puts opts; exit }
 end
 
 optparse.parse!
