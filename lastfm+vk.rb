@@ -35,7 +35,7 @@ def init
   $last_status = sget
   puts "Last status: #{$last_status}"
   
-  $old_track = nowplaying
+  $old_track = nil
 end
 
 def send_nowplaying (track_text = nowplaying)
