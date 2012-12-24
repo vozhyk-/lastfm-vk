@@ -66,11 +66,11 @@ def send_loop (to_sleep=$sleep)
 end
 
 optparse = OptionParser.new do |opts|
-  opts.on('-r', '--restore-status',     "Restore previous VK status on exit") do
+  opts.on('-r', '--restore-status',   "Restore previous VK status on exit") do
     $restore_last_status = true; end
-  opts.on('-s', '--sleep [S]', Integer, "Check last.fm nowplaying each S seconds") do
+  opts.on('-s', '--sleep S', Integer, "Check last.fm nowplaying each S seconds") do
     |sec| $sleep = sec; end
-  opts.on('-h', '--help',               "Display this screen") { puts opts; exit }
+  opts.on('-h', '--help',             "Display this screen") { puts opts; exit }
 end
 
 optparse.parse!
