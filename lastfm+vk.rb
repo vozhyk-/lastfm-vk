@@ -16,7 +16,7 @@ $sleep = 1
 def nowplaying
   $u = Scrobbler::User.new($lf_un)
   cur = $u.recent_tracks[0]
-  alb = if !(cur.album.nil? || cur.album.empty?)
+  alb = unless cur.album.nil? || cur.album.empty?
           " [#{cur.album}]" else "" end
   "#{cur.artist} – #{cur.name}#{alb}"
 end
