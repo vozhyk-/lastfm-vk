@@ -10,12 +10,14 @@ def $lf_un.blank?; false; end # scrobbler requires .blank?
 $vk_aid = 3310267
 $vk_uid = 177067169
 $vk_key = "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
-$restore_last_status = false
-$sleep = 1
+$opt = { :single => false,
+         :restore_status => false,
+         :sleep => 1,
+         :track_n => 0 }
 
-def nowplaying
+def nowplaying (i = $opt[:track_n])
   $u = Scrobbler::User.new($lf_un)
-  cur = $u.recent_tracks[0]
+  cur = $u.recent_tracks[i]
   alb = unless cur.album.nil? || cur.album.empty?
           " [#{cur.album}]" else "" end
   "#{cur.artist} – #{cur.name}#{alb}"
@@ -58,30 +60,40 @@ def send_nowplaying_lazy (track_text = nowplaying)
   end
 end
 
-def send_loop (to_sleep=$sleep)
+def send_loop (to_sleep=$opt[:sleep])
   while true
     send_nowplaying_lazy
     sleep(to_sleep)
   end
 end
 
+# $opt setting proc
+seto = lambda {|opt, val| $opt[opt] = val}.curry
+
 optparse = OptionParser.new do |opts|
-  opts.on('-1', '--single',           "Set VK status then exit") do
-    init; send_nowplaying; exit; end
-  opts.on('-r', '--restore-status',   "Restore previous VK status on exit") do
-    $restore_last_status = true; end
-  opts.on('-s', '--sleep S', Integer, "Check last.fm nowplaying each S seconds") do
-    |sec| $sleep = sec; end
+  opts.banner = "Usage: lastfm+vk [-1 [-n N] || [-r] [-s S]]"
+  opts.on('-1', '--single',           "Set VK status then exit",
+          &seto[:single])
+  opts.on('-n', '--nth N',   Integer, "Use Nth (from 0) last played track",
+          &seto[:track_n])
+  opts.on('-r', '--restore-status',   "Restore previous VK status on exit",
+          &seto[:restore_status])
+  opts.on('-s', '--sleep S', Integer, "Check last.fm last track each S seconds",
+          &seto[:sleep])
   opts.on('-h', '--help',             "Display this screen") { puts opts; exit }
 end
 
 optparse.parse!
 
 init
-begin
-  send_loop
-rescue SystemExit, Interrupt
-  sset $last_status["text"], "Restored status: " if $restore_last_status
+if $opt[:single]
+  send_nowplaying
+else
+  begin
+    send_loop
+  rescue SystemExit, Interrupt
+    sset $last_status["text"], "Restored status: " if $opt[:restore_status]
+  end
 end
 
 # vk_api test
