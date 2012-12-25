@@ -95,8 +95,3 @@ else
     sset $last_status["text"], "Restored status: " if $opt[:restore_status]
   end
 end
-
-# vk_api test
-#require "vk_api"
-#session = VkApi::Session.new 3310267, "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
-#session.status.get :uid => 177067169
