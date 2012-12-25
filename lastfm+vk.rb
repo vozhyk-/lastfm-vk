@@ -95,7 +95,10 @@ if __FILE__ == $0
     begin
       send_loop
     rescue SystemExit, Interrupt
-      sset $last_status["text"], "Restored status: " if $opt[:restore_status]
+      if $opt[:restore_status]
+        puts "Caught interrupt, restoring status..."
+        sset $last_status["text"], "Restored status: "
+      end
     end
   end
 end
