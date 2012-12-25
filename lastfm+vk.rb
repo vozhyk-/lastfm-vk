@@ -67,6 +67,17 @@ def send_loop (to_sleep=$opt[:sleep])
   end
 end
 
+def send_loop_restore (restore = $opt[:restore_status])
+  begin
+    send_loop
+  rescue SystemExit, Interrupt
+    if $opt[:restore_status]
+      puts "Caught interrupt, restoring status..."
+      sset $last_status["text"], "Restored status: "
+    end
+  end
+end
+
 # $opt setting proc
 seto = lambda {|opt, val| $opt[opt] = val}.curry
 
@@ -90,15 +101,7 @@ init
 
 if __FILE__ == $0
   if $opt[:single]
-    send_nowplaying
-  else
-    begin
-      send_loop
-    rescue SystemExit, Interrupt
-      if $opt[:restore_status]
-        puts "Caught interrupt, restoring status..."
-        sset $last_status["text"], "Restored status: "
-      end
-    end
+  then send_nowplaying
+  else send_loop_restore
   end
 end
