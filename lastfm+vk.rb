@@ -78,7 +78,8 @@ optparse = OptionParser.new do |opts|
           &seto[:track_n])
   opts.on('-r', '--restore-status',   "Restore previous VK status on exit",
           &seto[:restore_status])
-  opts.on('-s', '--sleep S', Integer, "Check last.fm last track each S seconds",
+  opts.on('-s', '--sleep S', Integer, "Check last.fm last track each S seconds\
+ (default=#{$opt[:sleep]})",
           &seto[:sleep])
   opts.on('-h', '--help',             "Display this screen") { puts opts; exit }
 end

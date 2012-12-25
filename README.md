@@ -9,6 +9,6 @@ Usage: lastfm+vk [-1 [-n N] || [-r] [-s S]]
     -1, --single                     Set VK status then exit
     -n, --nth N                      Use Nth (from 0) last played track
     -r, --restore-status             Restore previous VK status on exit
-    -s, --sleep S                    Check last.fm last track each S seconds
+    -s, --sleep S                    Check last.fm last track each S seconds (default=1)
     -h, --help                       Display this screen
 ```
