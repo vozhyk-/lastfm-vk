@@ -12,7 +12,7 @@ $vk_uid = 177067169
 $vk_key = "1922eec4acfa932145b89f7b22b7f0f6df40f48e47e41a9473b02326bd7f9612601f0a27a44a530df04fe"
 $opt = { :single => false,
          :restore_status => false,
-         :sleep => 1,
+         :sleep => 30,
          :track_n => 0 }
 
 def nowplaying (i = $opt[:track_n])
