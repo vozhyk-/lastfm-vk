@@ -87,12 +87,15 @@ end
 optparse.parse!
 
 init
-if $opt[:single]
-  send_nowplaying
-else
-  begin
-    send_loop
-  rescue SystemExit, Interrupt
-    sset $last_status["text"], "Restored status: " if $opt[:restore_status]
+
+if __FILE__ == $0
+  if $opt[:single]
+    send_nowplaying
+  else
+    begin
+      send_loop
+    rescue SystemExit, Interrupt
+      sset $last_status["text"], "Restored status: " if $opt[:restore_status]
+    end
   end
 end
